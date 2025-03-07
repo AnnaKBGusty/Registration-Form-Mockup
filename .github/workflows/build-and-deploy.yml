@@ -1,0 +1,35 @@
+name: Build and Deploy WebGL
+
+on:
+  push:
+    branches: [ main ]  # triggers on pushes to 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2) Set up Unity
+      - name: Set up Unity
+        uses: webbertakken/unity-actions@v2
+        with:
+          unityVersion: "2022.3.17f1"  # match your Editor version
+
+      # 3) Build WebGL
+      - name: Build WebGL
+        run: |
+          Unity -batchmode -nographics -quit \
+            -projectPath . \
+            -buildTarget WebGL \
+            -executeMethod BuildScript.PerformBuild
+
+      # 4) Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./Build/WebGL
