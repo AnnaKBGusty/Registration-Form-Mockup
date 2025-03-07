@@ -15,7 +15,7 @@ jobs:
 
       # 2) Set up Unity
       - name: Set up Unity
-        uses: game-ci/unity-actions@v2
+        uses: game-ci/unity-actions/setup@v2
         with:
           unityVersion: "2022.3.17f1"  # match your Editor version
 
