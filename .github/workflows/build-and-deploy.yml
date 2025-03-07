@@ -7,18 +7,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}   # Pass your license file here
 
     steps:
+      # 1) Check out the repository code
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 2) Set up Unity (with license passed as an environment variable)
       - name: Set up Unity
         uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          unityVersion: "2022.3.17f1"  # match your Editor version
+          unityVersion: "2022.3.17f1"
 
+      # 3) Build WebGL
       - name: Build WebGL
         run: |
           Unity -batchmode -nographics -quit \
@@ -26,6 +29,7 @@ jobs:
             -buildTarget WebGL \
             -executeMethod BuildScript.PerformBuild
 
+      # 4) Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
