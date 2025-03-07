@@ -13,6 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 1.5) Cache Unity Library
+      - name: Cache Unity Library
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ hashFiles('ProjectSettings/ProjectVersion.txt') }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+
       # 2) Set up Unity (with license passed as an environment variable)
       - name: Set up Unity
         uses: game-ci/unity-builder@v4
@@ -22,7 +31,6 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           unityVersion: "2022.3.17f1"
-
 
       # 3) Build WebGL
       - name: Build WebGL
