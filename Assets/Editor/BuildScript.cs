@@ -5,7 +5,7 @@ public static class BuildScript
     public static void PerformBuild()
     {
         string[] scenes = { "Assets/Scenes/MainScene.unity" };
-        string buildPath = "Build/WebGL";  // Adjust if you want a different folder name
+        string buildPath = "Build/WebGL";  
 
         BuildPipeline.BuildPlayer(
             scenes,
